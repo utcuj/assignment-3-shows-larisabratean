@@ -1,0 +1,222 @@
+package PresentationTier; 
+	import java.awt.EventQueue;
+
+	import javax.swing.JFrame;
+	import javax.swing.JLabel;
+	import java.awt.Font;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.io.IOException;
+import java.util.List;
+
+import javax.swing.JTextField;
+import javax.swing.table.DefaultTableModel;
+ 
+import javax.swing.JButton;
+	import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import LogicTier.ClientController;
+import BridgeShow.Show;
+import DataTier.User;
+	public class PremiumFrame {
+		public DefaultTableModel table_3  ;
+		
+		public JScrollPane scrollPane_1;
+		public JTable table1;
+		public DefaultTableModel table_1;
+		public JFrame frame;
+		private ClientController client;
+		public JTextField textComment;
+		private User us;
+		public JButton btnAddInterest;
+		public JButton btnView;
+		public JTextField textSearchShow;
+		public JTextField textRate;
+		public JScrollPane scrollPane ;
+		public JButton btnSearch ;
+		public JButton btnGiveRating ;
+		public JButton btnAddComment;
+		 
+		public PremiumFrame()
+		{
+			
+		}
+
+		public static void main(String[] args) {
+			EventQueue.invokeLater(new Runnable() {
+				public void run() {
+					try {
+						PremiumFrame window = new PremiumFrame();
+						window.frame.setVisible(true);
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				}
+			});
+		}
+
+		public void setFrame()
+		{
+			this.frame.setVisible(true);
+		} 
+
+		/**
+		 * Create the application.
+		 * @wbp.parser.entryPoint
+		 */
+		public PremiumFrame(User us) {  System.out.println("View");
+		this.us=us;
+		client = new ClientController(this,this.us);
+		initialize();
+	}
+ 
+		
+public   void afisareShows(List<Object[]> data)   {
+	   this.table_1.setRowCount(0);
+		 
+		  
+       
+   	for(Object[] show: data) {
+		 table_1.addRow(show);	 
+	}
+	  }	
+		public String getNameSearch()
+		{
+			return this.textSearchShow.getText();
+		}
+		 
+		private void initialize() {
+			frame = new JFrame();
+			frame.setBounds(100, 100, 798, 417);
+			frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+			frame.getContentPane().setLayout(null);
+			
+			JLabel lblViewHistory = new JLabel("View History:");
+			lblViewHistory.setFont(new Font("Times New Roman", Font.BOLD, 13));
+			lblViewHistory.setBounds(509, 141, 114, 19);
+			frame.getContentPane().add(lblViewHistory);
+			
+			  btnView = new JButton("View");
+			  btnView.addMouseListener(new MouseAdapter() {
+					@Override
+					public void mouseClicked(MouseEvent arg0) {
+						try {
+							client.viewHistory();
+						} catch (ClassNotFoundException | IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					}
+				});
+			btnView.setBounds(519, 193, 89, 23);
+			frame.getContentPane().add(btnView);
+			
+			JLabel lblAddComment = new JLabel("Add comment:");
+			lblAddComment.setFont(new Font("Times New Roman", Font.BOLD, 14));
+			lblAddComment.setBounds(35, 168, 104, 24);
+			frame.getContentPane().add(lblAddComment);
+			
+			textComment = new JTextField();
+			textComment.setBounds(151, 171, 86, 20);
+			frame.getContentPane().add(textComment);
+			textComment.setColumns(10);
+			
+			 btnAddInterest = new JButton("Add Interest");
+			 btnAddInterest.addMouseListener(new MouseAdapter() {
+					@Override
+					public void mouseClicked(MouseEvent arg0) {
+						try {
+							client.btnAddInterest();
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						} catch (ClassNotFoundException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					}
+				});
+			btnAddInterest.setBounds(290, 74, 114, 23);
+			frame.getContentPane().add(btnAddInterest);
+			
+			JLabel lblAddInterestTo = new JLabel("Add interest to the show: ");
+			lblAddInterestTo.setFont(new Font("Times New Roman", Font.BOLD, 14));
+			lblAddInterestTo.setBounds(35, 76, 191, 16);
+			frame.getContentPane().add(lblAddInterestTo);
+			
+			textSearchShow = new JTextField();
+			textSearchShow.setBounds(217, 35, 86, 20);
+			frame.getContentPane().add(textSearchShow);
+			textSearchShow.setColumns(10);
+			
+			JLabel lblNewLabel = new JLabel("Hello!");
+			lblNewLabel.setFont(new Font("Times New Roman", Font.BOLD, 14));
+			lblNewLabel.setBounds(21, 7, 46, 14);
+			frame.getContentPane().add(lblNewLabel);
+			table_3= new DefaultTableModel();
+			
+			table_3.addColumn("Nume");
+			table1=new JTable();
+			table_1= new DefaultTableModel();
+			
+			table_1.addColumn("Name");
+			table_1.addColumn("Type"); 
+			table1.setModel(table_1);
+			scrollPane_1 = new JScrollPane();
+			scrollPane_1.setBounds(394, 227, 360, 143);
+			scrollPane_1.setViewportView(table1);
+			frame.getContentPane().add(scrollPane_1);
+			 btnSearch = new JButton("Search");
+			 btnSearch.addMouseListener(new MouseAdapter() {
+					@Override
+					public void mouseClicked(MouseEvent arg0) {
+						try {
+							client.btnSearch();
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					}
+				});
+			btnSearch.setBounds(336, 34, 89, 23);
+			frame.getContentPane().add(btnSearch);
+			
+			JLabel lblShow = new JLabel("Modify the show with name:");
+			lblShow.setFont(new Font("Times New Roman", Font.BOLD, 14));
+			lblShow.setBounds(35, 37, 177, 14);
+			frame.getContentPane().add(lblShow);
+			
+			  btnGiveRating = new JButton("Give Rating");
+
+			  btnGiveRating.addMouseListener(new MouseAdapter() {
+					@Override
+					public void mouseClicked(MouseEvent arg0) {
+						try {
+							client.medieRate();
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						} catch (ClassNotFoundException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					}
+				});
+			btnGiveRating.setBounds(272, 139, 89, 23);
+			frame.getContentPane().add(btnGiveRating);
+			
+			JLabel lblEnterRating = new JLabel("Enter rating:");
+			lblEnterRating.setFont(new Font("Times New Roman", Font.BOLD, 14));
+			lblEnterRating.setBounds(35, 141, 104, 16);
+			frame.getContentPane().add(lblEnterRating);
+			
+			textRate = new JTextField();
+			textRate.setBounds(151, 140, 86, 20);
+			frame.getContentPane().add(textRate);
+			textRate.setColumns(10);
+			
+			 btnAddComment = new JButton("Add Comment");
+			btnAddComment.setBounds(272, 170, 125, 23);
+			frame.getContentPane().add(btnAddComment);
+		}
+	}

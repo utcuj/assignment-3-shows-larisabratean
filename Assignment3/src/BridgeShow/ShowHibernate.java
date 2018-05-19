@@ -10,13 +10,16 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
+import DataTier.User;
+
 public class ShowHibernate {
 
 	public ShowHibernate() {
 
 	}
-	public void add(Show show, ShowAfterAbstraction sb) { // without id
-		sb.add(show);
+	public void addShow(ShowAfterAbstraction sh)
+	{ 
+	sh.add();
 	}
 	public   List<Show> selectShows() {
 		SessionFactory sessionFactory = new Configuration()
@@ -33,6 +36,21 @@ public class ShowHibernate {
 		 
 	}
 
+	public Show getShowName(String name) {
+		Show shows = new Show();
+		SessionFactory sessionFactory = new Configuration()
+				.configure(new File("C:\\Users\\larisa\\workspace\\Assignment3\\hibernate.cfg.xml"))
+				.buildSessionFactory();
+		Session session = sessionFactory.openSession();
+
+		session.beginTransaction();
+		Query query = session.createQuery("from Show where name = :name ");
+		query.setParameter("name", name);
+		shows =(Show) query.getSingleResult();
+		session.getTransaction().commit();
+		session.close();
+		return shows;
+	}
 	public List<Show> searchShow(String name) {
 		List<Show> shows = new ArrayList<Show>();
 		SessionFactory sessionFactory = new Configuration()

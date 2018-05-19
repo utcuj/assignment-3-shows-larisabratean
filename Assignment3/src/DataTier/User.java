@@ -22,14 +22,14 @@ import BridgeShow.Show;
 @Table(name="`user`")
 public class User   {  
    
-@Id
-@GeneratedValue(strategy=GenerationType.AUTO) 
+@Id 
 private int iduser;
 private String password;
 private String nume;
-private String type;
-
-private int id_admin;
+private String type; 
+@Transient
+private List<String> rec;
+private   int id_admin=4;
 	//public abstract boolean searchShow();//select and view also
 //	public abstract String viewHistory();
 	//public abstract void giveRate();
@@ -40,18 +40,18 @@ private int id_admin;
        joinColumns = {@JoinColumn(name = "iduser")},
        inverseJoinColumns = {@JoinColumn(name = "idshow")}
  )
-private Set<Show> shows;
+private List<Show> shows;
 public User()
 {
 
 }
-public User (String nume, String password, String type)
+public User (int id1 , String nume, String password, String type, int id)
 {
-	this.iduser=this.iduser+1;
+	this.iduser=id1;
 	this.password=password;
 	this.nume=nume;
 	this.type=type;
-	this.id_admin=1;
+ this.id_admin=id;
 }
 
 public User(int id, String username, String password, String premium) {
@@ -61,11 +61,11 @@ public User(int id, String username, String password, String premium) {
 	this.type = premium;
 }
 
-public Set<Show> getSh()
+public List<Show> getSh()
 {
 	return this.shows;
 }
-public void setShows(Set<Show> s)
+public void setShows(List<Show> s)
 {
 	this.shows=s;
 	
@@ -114,7 +114,26 @@ public int getIdAdm()
 {
 return this.id_admin;
 }
+
+public void addInterest(Show s)
+{
+	this.shows.add(s);
+	for (Show sr: shows) {
+	if (sr.getIdShow()==s.getIdShow())
+	{
+		sr.attach(this);
+	}
+	} 
+}
+
 public void update(String name) {
-System.out.println("S-a modificat");	
+	if (this.type.equals("Premium"))
+System.out.println("Buna ziua, "+this.getName()+"! Serialul "+name+" s-a modificat!");	
+}
+public List<String> getRec() {
+	return rec;
+}
+public void setRec(List<String> rec) {
+	this.rec = rec;
 }
 }

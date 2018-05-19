@@ -1,29 +1,48 @@
 package BridgeShow;
 
 import java.io.File;
+import java.util.List;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.boot.MetadataSources;
+import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
+import org.hibernate.service.ServiceRegistry;
 
-public class Theatre implements Implementor {
-
-	public Theatre()
-	{
-		super();
+public class Theatre extends Show implements Implementor{
+	public Theatre(int id,String name,String des, String ac, double r,  int id_admin) {
+		super(id,name,des,ac, r,1);
+ 
 	}
-	public void add(Show show) {
-		SessionFactory sessionFactory = new Configuration()
+	@Override
+	public void add() {
+		final ServiceRegistry registry = new StandardServiceRegistryBuilder()
 				.configure(new File("C:\\Users\\larisa\\workspace\\Assignment3\\hibernate.cfg.xml"))
-				.buildSessionFactory();
-		Session session = sessionFactory.openSession();
+		        .build();
+		try {
+		    SessionFactory sessionFactory = new MetadataSources(registry).buildMetadata().buildSessionFactory();
+		    Session session = sessionFactory.openSession();
+		    session.beginTransaction();
+		  Show s= new Show();
+		  s.setType("Theatre");
+		  s.setIdShow(this.getIdShow());
+		  s.setActor(this.getActors());
+		  s.setDesc(this.getDes());
+		  s.setImdb(0.0f);
+		  s.setImdb_notes(0);
+		  s.setName(this.getName()); 
+		    session.save(s);
+		    session.getTransaction().commit();
+		    session.close();
 		
-		session.beginTransaction();
-		show.setType("Theatre");
-		session.save(show);
+		    sessionFactory.close();
 		
-		session.getTransaction().commit();
-		 System.out.println("S-a adaugat un teatru!");
-		session.close();
-	}
+		
+		} catch (Exception ex) {
+			System.out.println("eroare"+ex);
+			ex.printStackTrace();
+		    StandardServiceRegistryBuilder.destroy(registry);
+		}// TODO Auto-generated method stub
+}
 }

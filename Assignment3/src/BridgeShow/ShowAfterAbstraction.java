@@ -7,8 +7,8 @@ public class ShowAfterAbstraction extends ShowBridge {
 	}
 
 	@Override
-	public void add(Show sh) {
-		imp.add(sh);
+	public void add() {
+		imp.add();
 	}
 	
 }

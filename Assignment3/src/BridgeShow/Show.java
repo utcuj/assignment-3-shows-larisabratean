@@ -1,5 +1,6 @@
 package BridgeShow;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -15,36 +16,47 @@ import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import javax.persistence.OneToMany;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.cfg.Configuration;
+
 import DataTier.PremiumUser;
-import DataTier.User;
+import DataTier.User; 
 @Entity
 @Table (name="`show`")
 public class Show {
-	@Id 
-	@GeneratedValue(strategy=GenerationType.AUTO) 
+	@Id  
 @Column(name="idshow",unique=true, nullable=false)
 	private int idshow; 
 	private String type; 
 	private String actors; 
 	private String description ; 
 	private double imdb_rate; 
+	private int imdb_notes;
 	@Column (name = "name")
 
 	private String name; 
-	private int idadmin;
-	@ManyToMany( fetch = FetchType.LAZY, mappedBy = "shows", cascade = CascadeType.ALL  )
+	private int idadmin; 
+	@OneToMany(mappedBy = "show")
+	private List<Comment> comments;
+	@ManyToMany( fetch = FetchType.EAGER, mappedBy = "shows", cascade = CascadeType.ALL  )
 	private List<User> users;
-	@Transient
-	
+	@Transient 
 	private int state;
 	public Show()
 	{
 		
-	}
-	//public User getOBs()
-	//{
-	//	return ((Object) this.obs).get(0);
-	//}
+	} 
+	public Show(int id, String name, String desc, String actors, double rating, int id_a)
+	{
+		this.name=name;
+		this.idshow=id;
+		this.idadmin=1;
+		this.description=desc;
+		this.actors=actors;
+		this.imdb_rate=0.0;
+	} 
 	public Show(int id,  String actors, String d, double imdb_rate, String name,int idamin)
 	{
 		this.idadmin=idamin;
@@ -54,7 +66,7 @@ public class Show {
 		this.imdb_rate=imdb_rate;
 		this.name=name;
 	}
-	public Show(int id, String type, String actors, String d, double imdb_rate, String name,int idamin)
+	public Show(int id, String type, String name, String d,  String actors, double imdb_rate,int idamin)
 	{
 		this.idadmin=idamin;
 		this.idshow=id;
@@ -101,7 +113,7 @@ public void setType(String a)
 public void setActor(String a)
 {
 	this.actors=a;
-}
+}  
 public void setDesc(String a)
 {
 	this.description=a;
@@ -147,6 +159,18 @@ return this.idadmin;
 public double getIMDB()
 {
 	return this.imdb_rate;
+}
+public int getImdb_notes() {
+	return imdb_notes;
+}
+public void setImdb_notes(int imdb_notes) {
+	this.imdb_notes = imdb_notes;
+}
+public List<Comment> getComments() {
+	return comments;
+}
+public void setComments(List<Comment> comments) {
+	this.comments = comments;
 }
 
 }

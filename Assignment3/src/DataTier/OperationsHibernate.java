@@ -36,8 +36,7 @@ public class OperationsHibernate {
         return c.list();
   
 	 
-	}
-
+	} 
 	public void addShowUser(int idu, int ids) {
 		SessionFactory sessionFactory = new Configuration()
 				.configure(new File("C:\\Users\\larisa\\workspace\\Assignment3\\hibernate.cfg.xml"))

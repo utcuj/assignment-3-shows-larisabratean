@@ -9,9 +9,10 @@ import DataTier.Admin;
 import DataTier.AdminHibernate;
 import DataTier.User;
 import DataTier.UserHibernate;
-import PresentationTier.AdminUser;
+import PresentationTier.AdminFrame;
 import PresentationTier.LoginFrame;
-import PresentationTier.PremiumFrame; 
+import PresentationTier.PremiumFrame;
+import PresentationTier.RegularFrame; 
 public class LoginController implements ActionListener  {
 	
 	private LoginFrame signInView = new LoginFrame();
@@ -40,8 +41,9 @@ public void actionPerformed(ActionEvent e)
 	Admin a = ad.getAdmin(nume,pass);
 	if (a!=null)
 	{ 
-		 new AdminController();
-		 AdminUser adminView=new AdminUser(a);
+	
+		 AdminFrame adminView=new AdminFrame(a);
+		 new AdminControl(adminView,a);
 		  adminView.setFrame();
 		 
 	}
@@ -58,12 +60,22 @@ if (e.getSource()==signInView.btnEmployee)
 	 
 	
 	User use= us.getUser(nume, pass);
+
 	if (use!=null)
-	{
-		 new ClientController();
-		  PremiumFrame clientView=new PremiumFrame(use);
+	{  
+		if (use.getType().equals("Premium"))
+		{
+		PremiumFrame clientView=new PremiumFrame(use);
+		 new ClientControl(clientView,use);
+		
 		  clientView.setFrame();
-		  
+		}
+		else
+		{
+			RegularFrame reg= new RegularFrame(use);
+			new RegularControl(reg, use);
+			reg.setFrame();
+		}
 	 
 	}
 	else {

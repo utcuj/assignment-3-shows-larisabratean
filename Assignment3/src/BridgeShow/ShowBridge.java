@@ -6,5 +6,5 @@ public abstract class ShowBridge {
 	{
 		this.imp=imp;
 	}
-	public abstract void add(Show sh);
+	public abstract void add();
 }

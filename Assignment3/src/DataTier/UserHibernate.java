@@ -17,7 +17,7 @@ public class UserHibernate {
 	public UserHibernate() {
 
 	}
-	public void addUser(String id, String name, String password, String type)
+	public void addUser(String id, String name, String password, String type,int id2)
 	{
 		SessionFactory sessionFactory = new Configuration()
 				.configure(new File("C:\\Users\\larisa\\workspace\\Assignment3\\hibernate.cfg.xml"))
@@ -25,7 +25,7 @@ public class UserHibernate {
 		Session session = sessionFactory.openSession();
 
 		session.beginTransaction(); 
-		 User us= new User(Integer.parseInt(id),name, password, type); 
+		 User us= new User(Integer.parseInt(id),name, password, type,id2); 
 		 session.save(us);
 		session.getTransaction().commit();
 	    System.out.println("Am inserat noul user!");
@@ -40,7 +40,7 @@ public class UserHibernate {
 		Session session = sessionFactory.openSession();
 
 		session.beginTransaction();
-		Query query = session.createQuery("from user where iduser = :id ");
+		Query query = session.createQuery("from User where iduser = :id ");
 		query.setParameter("id", id);
 		shows = (User) query.getSingleResult();
 		session.getTransaction().commit();
@@ -61,8 +61,8 @@ public class UserHibernate {
 		return users; 
 	}
 
-	public List<User> searchUser(String name) {
-		List<User> users = new ArrayList<User>();
+	public User searchUser(String name) {
+		User users ;
 		SessionFactory sessionFactory = new Configuration()
 				.configure(new File("C:\\Users\\larisa\\workspace\\Assignment3\\hibernate.cfg.xml"))
 				.buildSessionFactory();
@@ -71,18 +71,22 @@ public class UserHibernate {
 		session.beginTransaction();
 		Query query = session.createQuery("from User where nume = :nume ");
 		query.setParameter("nume", name);
-		users = query.getResultList();
+		users = (User) query.getSingleResult();
 		session.getTransaction().commit();
 		session.close();
 		return users;
 	}
 
-	public void update(int id, String name, String pass, String type) {
+	public void update(int id, String name, String pass, String type,List<String>rec) {
 		SessionFactory sessionFactory = new Configuration()
 				.configure(new File("C:\\Users\\larisa\\workspace\\Assignment3\\hibernate.cfg.xml"))
 				.buildSessionFactory();
 		Session session = sessionFactory.openSession();
-		User uss= new User(id, name, pass, type);
+		User uss= getUserId(id); 
+		uss.setName(name);
+		uss.setPass(pass);
+		uss.setType(type);
+		uss.setRec(rec);
 		session.beginTransaction();
 		session.update(uss);
 		session.getTransaction().commit();

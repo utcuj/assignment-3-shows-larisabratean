@@ -1,28 +1,21 @@
 package PresentationTier; 
-
-import java.awt.EventQueue;
-import LogicTier.AdminController;
-
+ 
 import javax.swing.JFrame;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
-import DataTier.Admin;
-import DataTier.PremiumUser;  
+import DataTier.Admin; 
 
 import javax.swing.JLabel;
 import java.awt.Font; 
 import javax.swing.JButton; 
-import javax.swing.JTable;
-import javax.swing.JRadioButton;
-import javax.swing.JScrollPane;
-import java.awt.event.ActionListener;
+import javax.swing.JTable ;
+import javax.swing.JScrollPane; 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.List;
-import java.awt.event.ActionEvent;
+import java.util.List; 
 
-public class AdminUser {
+public class AdminFrame {
 
 	public JFrame frame;
 	private Admin ad;
@@ -32,10 +25,10 @@ public class AdminUser {
 	public JTextField descriere;
 	public JTextField numeRate;
 	public JTextField textNumeUser;
-	public JButton btnAddMedicine ;
+	public JButton btnAddShow ;
 	public DefaultTableModel table_3,table_1;
 	public JTable table,table1;
-	public JButton btnDeleteMed ;
+	public JButton btnDeleteShow ;
 	
 	public JButton btnUpdate ;
 	
@@ -49,60 +42,39 @@ public class AdminUser {
 	public JButton btnDeleteEmployee ;
 	
 	public JButton btnUpdateEmployee ;
-	private JTextField idShow;
-	private JLabel lblParola;
-	private JTextField textParola;
-	private JLabel lblType;
+	public JTextField idShow;
+	public JLabel lblParola;
+	public JTextField textParola;
+	public JLabel lblType;
 
-	
-	private LogicTier.AdminController adminController;
-	private JTextField textTip;
-	private JTextField idUser;
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					AdminUser window = new AdminUser();
-				//	window.frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
-	 * Create the application.
-	 */
+	 
+	public JTextField textTip; 
+	public JTextField textIduser;
+	 
+  
 	public void cleanModel(){
         // remove all rows
         while (table1.getRowCount() > 0) {
             ((DefaultTableModel) table1.getModel()).removeRow(0);
         }
-    }
-	/**
-	 * @wbp.parser.entryPoint
-	 */
-	public AdminUser(Admin ad) {
+    }  
+	public void cleanModel2(){
+        // remove all rows
+        while (table.getRowCount() > 0) {
+            ((DefaultTableModel) table.getModel()).removeRow(0);
+        }
+    }  
+	public AdminFrame(Admin ad) {
 		this.ad=ad;
-		adminController = new  AdminController(this,this.ad);
+	//	adminController = new  AdminController(this,this.ad);
 		initialize(); 
 		
-	}
-	public AdminUser()
-	{
-		
-	}
+	}  
 	public JFrame getFrame()
 	{
 		return this.frame;
 	}
-	/**
-	 * Initialize the contents of the frame.
-	 */
+	 
 	private void initialize() {
 		frame = new JFrame();
 		frame.setBounds(100, 100, 777, 435);
@@ -206,85 +178,45 @@ public class AdminUser {
 		label.setFont(new Font("Times New Roman", Font.BOLD, 14));
 		label.setBounds(411, 74, 46, 14);
 		frame.getContentPane().add(label);
-		btnAddMedicine = new JButton("Add");
-		btnAddMedicine.addMouseListener(new MouseAdapter() {
-				@Override
-				public void mouseClicked(MouseEvent arg0) {
-					adminController.btnAddClicked();
-				}
-			});
-		btnAddMedicine.setBounds(17, 186, 95, 23);
-		frame.getContentPane().add(btnAddMedicine);
+		btnAddShow = new JButton("Add");
+		 
+		btnAddShow.setBounds(17, 186, 95, 23);
+		frame.getContentPane().add(btnAddShow);
 		
-	 btnDeleteMed = new JButton("Delete");
-	 btnDeleteMed.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent arg0) {
-				adminController.btnDeleteClicked();
-			}
-		});
-		btnDeleteMed.setBounds(122, 186, 89, 23);
-		frame.getContentPane().add(btnDeleteMed);
+	 btnDeleteShow = new JButton("Delete"); 
+		 
+		btnDeleteShow.setBounds(122, 186, 89, 23);
+		frame.getContentPane().add(btnDeleteShow);
 		
 	 btnUpdate = new JButton("Update");
-	 btnUpdate.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent arg0) {
-				adminController.btnUpdateClicked();
-			}
-		});
+	 
 		btnUpdate.setBounds(227, 186, 89, 23);
 		frame.getContentPane().add(btnUpdate);
 		
 	 btnVire = new JButton("View");
-	 btnVire.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent arg0) {
-				adminController.displayAll();
-			}
-		});
+	 
 		btnVire.setBounds(115, 354, 89, 23);
 		frame.getContentPane().add(btnVire);
 		
 		
 	 btnView = new JButton("View Employees");
-	 btnView.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent arg0) {
-				adminController.displayAllUsers();
-			}
-		});
+ 
 		btnView.setBounds(574, 177, 121, 23);
 		frame.getContentPane().add(btnView);
 		
 		btnAddEmployee = new JButton("Add Employee");
 
-		btnAddEmployee.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent arg0) {
-				adminController.btnAddUserClicked();
-			}
-		});
+		 
 		btnAddEmployee.setBounds(428, 152, 121, 23);
 		frame.getContentPane().add(btnAddEmployee);
 		
 		 btnDeleteEmployee = new JButton("Delete Employee");
-		 btnDeleteEmployee.addMouseListener(new MouseAdapter() {
-				@Override
-				public void mouseClicked(MouseEvent arg0) {
-					adminController.btnDeleteUserClicked();
-				}
-			});
+		 
 		btnDeleteEmployee.setBounds(428, 177, 121, 23);
 		frame.getContentPane().add(btnDeleteEmployee);
 		
 		 btnUpdateEmployee = new JButton("Update Employee");
-		 btnUpdateEmployee.addMouseListener(new MouseAdapter() {
-				@Override
-				public void mouseClicked(MouseEvent arg0) {
-					adminController.btnUpdateUserClicked();
-				}
-			});
+		  
 		btnUpdateEmployee.setBounds(574, 152, 121, 23);
 		frame.getContentPane().add(btnUpdateEmployee);
 		
@@ -323,40 +255,13 @@ public class AdminUser {
 		label_1.setBounds(410, 50, 79, 20);
 		frame.getContentPane().add(label_1);
 		
-		idUser = new JTextField();
-		idUser.setBounds(505, 47, 86, 20);
-		frame.getContentPane().add(idUser);
-		idUser.setColumns(10);
-	}
-	public Object[] getUserData() {
-		Object[] data = {this.idUser.getText(),this.textNumeUser.toString(),this.textParola.toString(),this.textTip.toString()};
-		return data;
-	}
-	public void displayShows(List<Object[]> data) {
-		table_1.setRowCount(0);	 // delete the old rows	
-		table1.setModel(table_1);
-		     
-		for(Object[] show: data) {
-			table_1.addRow(show);	
-		}		
-	}
-	
-	public void displayUsers(List<Object[]> data) {
-		table_3.setRowCount(0);	 // delete the old rows	
-		table.setModel(table_3);
-		     
-		for(Object[] show: data) {
-			table_3.addRow(show);	
-		}		
-	}
-	
-	public Object[] getData() {
+		textIduser = new JTextField();
+		textIduser.setBounds(508, 47, 86, 20);
+		frame.getContentPane().add(textIduser);
+		textIduser.setColumns(10);
 	 
-		Object[] data = {this.numeShow.toString(),this.numeType.toString(),
-				this.idShow.getText(),this.descriere.toString(),this.numeRate.getText()
-				,this.numeActor.toString() };
-		return data;
-	}
+	} 
+	 
 	public void setFrame()
 	{
 		this.frame.setVisible(true);
